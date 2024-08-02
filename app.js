@@ -23,6 +23,8 @@ const minutesDisplay = display1.querySelector(".minutesDisplay");
 const nextTriggerTimeDisplay = display1.querySelector(".nextTriggerTime");
 const alertBar = document.querySelector(".view-2 .alert-bar");
 const alertBarV1 = document.querySelector(".view-1 .alert-bar");
+const alertSuccessBar = document.querySelector(".alert-success");
+
 
 
 
@@ -604,6 +606,13 @@ function displayAlertView1(alarm){
 }
 
 
+function displayServerMessage(message){
+    alertSuccessBar.innerHTML = message;
+    alertSuccessBar.classList.add("reveal")
+    setTimeout(()=>{ alertSuccessBar.classList.remove('reveal') },2000);
+}
+
+
 function wipeView2(){
     nameSelect.value=""
 }
@@ -1017,7 +1026,7 @@ function saveAlarm(){
     addListeners();
     swapViews(view1,view2);
 
-    if(!alarmIndex){
+    if(!alarmIndex && alarmIndex != 0){
         sendNewAlarmToServer(alarm)
     }else{
         updateExistingAlarm(alarm)
@@ -1235,11 +1244,15 @@ function deleteAlarm(alarm){
 
 function handleJSONAlarmUpdateResponse(json){
     console.log(json)
+
+    displayServerMessage("Alarm updated successfully!")
 }
 
 
 function handleJSONAlarmDeletedResponse(json) {
 
+
+        displayServerMessage("Alarm deleted successfully!")
     // console.log("arrived:")
     console.log(json);
 //     var i;
@@ -1270,6 +1283,8 @@ function handleJSONAlarmAddedResponse(json) {
     alarm.id = json._id;
 
     console.log(alarms);
+
+    displayServerMessage("Alarm created successfully!")
 
    // var fetchedAlarms = json;
     //bikes = json.bikes;

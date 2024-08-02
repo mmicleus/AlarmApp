@@ -41,6 +41,28 @@
 
 /* View 1 CSS */
 
+.alert-success{
+  background-color:rgb(180, 245, 180);
+  border-radius:1rem;
+  padding: 1rem;
+  text-align:center;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color:rgb(29, 87, 29);
+
+  position:absolute;
+  top:0;
+  width:100%;
+  /* left:50%;  */
+  /* transform: translateX(-50%); */
+  opacity: 0;
+  transition:opacity 0.5s;
+}
+
+.alert-success.reveal{
+    opacity:90%;
+}
+
+
 #state-display{
   height: 25vh;
   display: flex;
