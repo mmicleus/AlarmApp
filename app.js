@@ -47,7 +47,7 @@ weekdays.forEach((day) => {
 
 //Other variables
 
-//alarmIndex - the index of the alarm that has been clicked an is currently being edited
+//alarmIndex - the index of the alarm that has been clicked and is currently being edited
 let alarmIndex = null;
 let dateSelected = false;
 const alarmSound = new Audio("Soundtracks/alarm.mp3");
@@ -79,7 +79,7 @@ let alarm = createAlarmCopy(defaultAlarm);
 let alarms = [];
 //a subarray of the 'alarms' array
 //contains the alarm or alarms that are next in line to go off
-//will contains more than 1 alarm if there are more alarms that are set for the same time
+//contains more than 1 alarm if there are more alarms that are set for the same time
 let upcomingAlarms = [];
 
 
@@ -144,7 +144,7 @@ function formatAlarm(alarm){
 
 //this function checks the 'hours' and 'minutes' properties of the alarm and determines whether the alarm can still go off today according to the 
 //hour and minute of the alarm
-//if it can, te function returns true
+//if it can, the function returns true
 //else, it returns false
 
 function isItToday(alarm){
@@ -267,7 +267,6 @@ function isTomorrow(date) {
     }
   }
 
-  //if we assign an object to a variable, the variable will store the reference to the object, rather than a copy
   //this function returns a copy of 'alrm'
   function createAlarmCopy(alrm){
     const aux = JSON.parse(JSON.stringify(alrm));
@@ -358,9 +357,7 @@ function computeDaysTillNextTrigger(alarm,daysLeftArray){
     console.log("nextTriggerTime:" + alarm.nextTriggerTime )
   }
 
-  //initializes the 'nextTriggerTime' property of the alarm
-  //calculateNextTriggerTime will calculate the 'nextTriggerTime ' of alarms that are set to particular dates
-  //calculateNextTriggerTime2 will calculate the 'nextTriggerTime' of alarms that are set to particular days of the week
+
   function calculateNextTriggerTime(alarm){
     if(alarm.date){
         alarm.nextTriggerTime = new Date(alarm.date.getFullYear(),alarm.date.getMonth(),alarm.date.getDate(),alarm.hour,alarm.minute,0,0);
@@ -370,7 +367,7 @@ function computeDaysTillNextTrigger(alarm,daysLeftArray){
     }
   }
 
-  //decides which alarm should be place first in the 'alarms' array
+  //decides which alarm should be placed first in the 'alarms' array
   function sortAlarms(a1,a2){
     if(a1.hour > a2.hour){
         return 1;
@@ -569,28 +566,6 @@ function getRemainingTimeMessage(alarm){
         return message;
 }
 
-// function getDays(remainingTime){
-//     let millisecondsInDay = 86400000;
-
-//     return Math.floor(remainingTime / millisecondsInDay);
-// }
-
-// function getHours(remainingTime){
-//     let millisecondsInDay = 86400000;
-//     let millisecondsInHour = 3600000;
-//     let remainingMillisecs = remainingTime % millisecondsInDay;
-
-//     return Math.floor(remainingMillisecs / millisecondsInHour);
-// }
-
-// function getMinutes(remainingTime){
-//     let millisecondsInHour = 3600000;
-//     let millisecondsInMinutes = 60000;
-//     let remainingMillisecs = remainingTime % millisecondsInHour;
-
-//     return Math.floor(remainingMillisecs / millisecondsInMinutes);
-// }
-
 
 
 //View
@@ -774,21 +749,7 @@ function insertAlarmData(){
     if(alarm.name){
         nameSelect.value = alarm.name;
     }
-    // else{
-    //     let today = isItToday(alarm);
-
-    //     if(today){
-    //         dateDisplay.innerText = "Today-" + formatDate(new Date()); 
-    //     }
-    //     else{
-    //         // Create new Date instance
-    //             var date = new Date()
-
-    //             // Add a day
-    //             date.setDate(date.getDate() + 1)
-    //             dateDisplay.innerText = "Tomorrow-" + formatDate(date);
-    //     }
-    // }
+  
 }
 
 function updateWeekdaysView(){
@@ -964,12 +925,7 @@ function addListeners(){
         item.getElementsByClassName("deleteBtn")[0].addEventListener("click",deleteExistingAlarm);
     })
 
-    // switches.forEach((sw)=>{
-    //     sw.addEventListener('click',(e)=>{
-    //         e.stopPropagation();
-    //         console.log("clicked")
-    //     })
-    // })
+   
 
     //add listeners to the slider on each alarm
     htmlAlarms.forEach((htmlAlarm)=>{
@@ -989,8 +945,6 @@ function addListeners(){
                 resetAppAfterToggle();
             }
             else{
-                // come back
-                // console.log("alarm enabled")
                  alarm.enabled = true;
                  updateExistingAlarm(alarm)
 
@@ -1005,7 +959,6 @@ function addListeners(){
 //called when the 'save' button is clicked in view 2
 function saveAlarm(){
 
-    //remove the alarms[index] from the array
     removeCurrentAlarm();
     wipeView2();
 
@@ -1056,9 +1009,6 @@ function loadAlarm(e){
     dateSelected = false;
     alarmIndex = parseInt(e.currentTarget.dataset.id,10);
     console.log("Alarm Index" + alarmIndex)
-    
-    // alarm = JSON.parse(JSON.stringify(alarms[alarmIndex]));
-    // alarm.date = new Date(Date.parse(alarm.date));
 
     alarm = createAlarmCopy(alarms[alarmIndex]);
     console.log(alarm);
@@ -1111,14 +1061,6 @@ function checkTime(){
 
 
 function sendNewAlarmToServer(alarm){
-    console.log("alarm to be sent:")
-   // console.log(alarm)
-
-//     var dataToSend = {
-//         bookings: bookings,
-//         userDetails:details
-
-//     }
 
 var stringToSend = JSON.stringify(alarm);
     
@@ -1128,16 +1070,16 @@ var stringToSend = JSON.stringify(alarm);
             handleJSONAlarmAddedResponse(this);
         }
     };
-   //xhttp.open("POST", "https://biking-80c26-default-rtdb.europe-west1.firebasedatabase.app/data.json", true);
 
    
     
     xhttp.open("POST", "http://localhost:3000/alarms", true);
     xhttp.setRequestHeader("Content-Type","application/json")
 
-    //     console.log(stringToSend);
     xhttp.send(stringToSend);
 }
+
+
 
 function fetchAlarms(){
 
@@ -1154,11 +1096,8 @@ function fetchAlarms(){
 
 
 function updateExistingAlarm(alarm){
-    console.log(alarm)
 
     var stringToSend = JSON.stringify(alarm)
-
-
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -1166,44 +1105,27 @@ function updateExistingAlarm(alarm){
             handleJSONAlarmUpdateResponse(this);
         }
     };
-   //xhttp.open("POST", "https://biking-80c26-default-rtdb.europe-west1.firebasedatabase.app/data.json", true);
 
-   
-    
     xhttp.open("PUT", "http://localhost:3000/alarms", true);
     xhttp.setRequestHeader("Content-Type","application/json")
 
-    //     console.log(stringToSend);
     xhttp.send(stringToSend);
 }
 
 
 function deleteExistingAlarm(e){
 
-    // console.log(e.target)
-    // if(!e.target.classList.contains("alarm")){
-    //     return;
-    // }
-
-    console.log("delete pressed")
 
     dateSelected = false;
     alarmIndex = parseInt(e.currentTarget.dataset.id,10);
-    console.log("Alarm Index" + alarmIndex)
     
-    // alarm = JSON.parse(JSON.stringify(alarms[alarmIndex]));
-    // alarm.date = new Date(Date.parse(alarm.date));
-
     var aux = createAlarmCopy(alarms[alarmIndex]);
-   // var alarm = alarms[alarmIndex]
 
 
     alarms.splice(alarmIndex,1);
     alarms.sort(sortAlarms);
     getUpcomingAlarms(alarms);
     displayRemainingTime(upcomingAlarms);
-    console.log("Alarms:")
-    console.log(upcomingAlarms);
     renderAlarms();
     addListeners();
 
@@ -1227,7 +1149,6 @@ function deleteAlarm(alarm){
         }
     )
 
-
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             handleJSONAlarmDeletedResponse(this);
@@ -1243,69 +1164,36 @@ function deleteAlarm(alarm){
 
 
 function handleJSONAlarmUpdateResponse(json){
-    console.log(json)
-
     displayServerMessage("Alarm updated successfully!")
 }
 
 
 function handleJSONAlarmDeletedResponse(json) {
-
-
-        displayServerMessage("Alarm deleted successfully!")
-    // console.log("arrived:")
-    console.log(json);
-//     var i;
-//     var jsonAsText = json.responseText;
-
-//    console.log(responseText)
-
-   // var fetchedAlarms = json;
-    //bikes = json.bikes;
-
-  //  processFetchedAlarms(fetchedAlarms)
+    displayServerMessage("Alarm deleted successfully!")
 }
 
 
 
 function handleJSONAlarmAddedResponse(json) {
-
-    console.log("arrived:")
-    console.log(json);
-    var i;
     var jsonAsText = json.responseText;
 
     var json = JSON.parse(jsonAsText);
 
-    console.log("response from server:")
-    console.log(json._id);
 
     alarm.id = json._id;
 
-    console.log(alarms);
-
     displayServerMessage("Alarm created successfully!")
 
-   // var fetchedAlarms = json;
-    //bikes = json.bikes;
-
-  //  processFetchedAlarms(fetchedAlarms)
 }
 
 
 function handleJSONData(json) {
 
-    console.log("arrived:")
-    console.log(json);
-    var i;
     var jsonAsText = json.responseText;
 
     var json = JSON.parse(jsonAsText);
 
-    console.log(json);
-
     var fetchedAlarms = json;
-    //bikes = json.bikes;
 
     processFetchedAlarms(fetchedAlarms)
 }
@@ -1320,14 +1208,9 @@ function processFetchedAlarms(fetchedAlarms){
 
     alarms.sort(sortAlarms)
     getUpcomingAlarms(alarms);
-    console.log("my alarms:")
-    console.log(alarms)
     displayRemainingTime(upcomingAlarms)
     renderAlarms();
     addListeners();
-
-    console.log(alarms)
- //   deleteAlarm();
 }
 
 function getNewAlarm(alarm){
@@ -1336,7 +1219,6 @@ function getNewAlarm(alarm){
         hour: alarm.time.hours,
     minute:alarm.time.minutes,
      date:alarm.date == null ? null : new Date(alarm.date),
-    // date:new Date(2023, 11, 31),
     days_of_week:alarm.daysOfWeek,
     name:alarm.message,
     enabled:alarm.active,
