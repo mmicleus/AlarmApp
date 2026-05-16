@@ -5,8 +5,8 @@ const alarmContainer = document.querySelector(".alarm-container");
 const plusButton = document.querySelector(".plus-button");
 const closeButton = document.querySelector(".close-button img");
 const view1 = document.getElementById("view-1");
-const view2 = document.getElementById("view-2");
-const view3 = document.getElementById("view-3");
+const editAlarmView = document.getElementById("view-2");
+const triggeredAlarmView = document.getElementById("view-3");
 const hourSelect = document.querySelector(".hour-selector");
 const minuteSelect = document.querySelector(".minute-selector");
 const nameSelect = document.querySelector(".alarm-name");
@@ -38,7 +38,7 @@ nameSelect.addEventListener('change',setAlarmName);
 // plusButton.addEventListener('click',addAlarm);
 saveButton.addEventListener('click',saveAlarm);
 cancelButton.addEventListener('click',cancel);
-closeButton.addEventListener('click',()=>{changeViews(view3,view1)
+closeButton.addEventListener('click',()=>{changeViews(triggeredAlarmView,view1)
                                            alarmSound.load();
 })
 weekdays.forEach((day) => {
@@ -765,14 +765,14 @@ function updateWeekdaysView(){
 }
 
 
-function swapViews(view1,view2){
+function swapViews(view1,editAlarmView){
     dateSelected = false;
 
     if(view1.classList.contains("show-view")){
-        changeViews(view1,view2)
+        changeViews(view1,editAlarmView)
     }
     else{
-        changeViews(view2,view1)
+        changeViews(editAlarmView,view1)
     }
 }
 
@@ -908,7 +908,7 @@ function addAlarm(){
     // insertAlarmData(defaultAlarm);
     // view1.classList.remove("show-view");
     // view2.classList.add("show-view");
-    swapViews(view1,view2);
+    swapViews(view1,editAlarmView);
 }
 
 
@@ -977,7 +977,7 @@ function saveAlarm(){
 
     renderAlarms();
     addListeners();
-    swapViews(view1,view2);
+    swapViews(view1,editAlarmView);
 
     if(!alarmIndex && alarmIndex != 0){
         sendNewAlarmToServer(alarm)
@@ -991,7 +991,7 @@ function saveAlarm(){
 //view 1 is rendered
 function cancel(){
     reset();
-    swapViews(view1,view2);
+    swapViews(view1,editAlarmView);
 }
 
 
@@ -1015,7 +1015,7 @@ function loadAlarm(e){
     insertAlarmData();
     hourChanged();
     minutesChanged();
-    swapViews(view1,view2);
+    swapViews(view1,editAlarmView);
 }
 
 //returns true is the it's time to trigger the alarm or alarms in the 'upcomingAlarms' array
@@ -1052,7 +1052,7 @@ function checkTime(){
         const alarmCopy = createAlarmCopy(upcomingAlarms[0]);
         alarmSound.play();
         insertDataIntoView3(alarmCopy)
-        changeViews(view1,view3)
+        changeViews(view1,triggeredAlarmView)
         //update alarms
         resetApp();
     }
