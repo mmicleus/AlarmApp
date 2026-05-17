@@ -24,6 +24,7 @@ const nextTriggerTimeDisplay = display1.querySelector(".nextTriggerTime");
 const alertBar = document.querySelector(".view-2 .alert-bar");
 const alertBarV1 = document.querySelector(".view-1 .alert-bar");
 const alertSuccessBar = document.querySelector(".alert-success");
+const doNothing = 1;
 
 
 
